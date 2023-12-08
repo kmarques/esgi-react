@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import Button from "./components/Button";
 import MountUnmount from "./MountUnmount";
+import ThemeProvider, { ThemeContext } from "./contexts/ThemeContext";
 
 function App() {
   const [count, setCount] = useState(0);
   const [displayLogo, setDisplayLogo] = useState(false);
-  const [theme, setTheme] = useState();
+  const { theme, toggleH1 } = useContext(ThemeContext);
 
   const [data, setData] = useState(["coucou", "hello", "salut"]);
 
@@ -22,34 +23,6 @@ function App() {
     },
     [data]
   );
-
-  function toggleH1() {
-    const bgColor = theme.h1.backgroundColor;
-    const color = theme.h1.color;
-
-    setTheme({
-      ...theme,
-      h1: {
-        ...theme.h1,
-        backgroundColor: color,
-        color: bgColor,
-      },
-    });
-  }
-
-  useEffect(() => {
-    fetch("http://localhost:3000/themes?userId=1")
-      .then((res) => res.json())
-      .then((data) => setTheme(data));
-  }, []);
-
-  if (theme === undefined) {
-    return <p>Loading...</p>;
-  }
-
-  if (theme === null) {
-    return <p>Theme not found</p>;
-  }
 
   //React.createElement(
   //  Fragment,
@@ -97,54 +70,44 @@ function App() {
         <Button
           variant="square"
           title="Button 1"
-          style={{ backgroundColor: "red", color: "white" }}
           onClick={() => setDisplayLogo(!displayLogo)}
         />
         <Button variant="round" title="Button 2" style={{}} />
         <Button
           variant="circle"
           title="+"
-          style={{ backgroundColor: "green" }}
           onClick={addElement}
           coucou="coucou"
         />
-        <Button
-          variant="round"
-          style={{ backgroundColor: "pink" }}
-          onClick={toggleH1}
-        >
+        <Button variant="round" onClick={toggleH1}>
           Toggle H1
         </Button>
-        <Button
-          variant="round"
-          style={{ backgroundColor: "pink" }}
-          onClick={() => console.error("test error")}
-        >
+        <Button variant="round" onClick={() => console.error("test error")}>
           <img src={viteLogo} />
           <img src={reactLogo} />
         </Button>
-        <Button
-          component="p"
-          variant="round"
-          style={{ backgroundColor: "pink" }}
-          onClick={() => console.error("test error")}
-        >
-          <img src={viteLogo} />
-          <img src={reactLogo} />
-        </Button>
-        <Button
-          component={(props) => (
-            <div>
-              Coucou <a onClick={props.onClick}>{props.children}</a>
-            </div>
-          )}
-          variant="round"
-          style={{ backgroundColor: "pink" }}
-          onClick={() => console.error("test error")}
-        >
-          <img src={viteLogo} />
-          <img src={reactLogo} />
-        </Button>
+        <ThemeProvider>
+          <Button
+            component="p"
+            variant="round"
+            onClick={() => console.error("test error")}
+          >
+            <img src={viteLogo} />
+            <img src={reactLogo} />
+          </Button>
+          <Button
+            component={(props) => (
+              <div>
+                Coucou <a onClick={props.onClick}>{props.children}</a>
+              </div>
+            )}
+            variant="round"
+            onClick={() => console.error("test error")}
+          >
+            <img src={viteLogo} />
+            <img src={reactLogo} />
+          </Button>
+        </ThemeProvider>
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>

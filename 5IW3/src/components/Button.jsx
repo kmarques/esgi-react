@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { ThemeContext } from "../contexts/ThemeContext";
+
 export default function Button({
   title = "Title",
   children,
@@ -7,11 +10,11 @@ export default function Button({
   style,
   ...others
 }) {
+  const theme = useContext(ThemeContext);
   title = children ?? title;
 
   const customStyle = {
-    color: "magenta",
-    backgroundColor: "cyan",
+    ...theme.button,
   };
 
   switch (variant) {
