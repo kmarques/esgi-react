@@ -3,11 +3,23 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import Button from "./components/Button";
+import TP1 from "./TP1-Correction";
+import TaskProvider, { TaskContext } from "./contexts/TaskContext";
 
 function App() {
   const [count, setCount] = useState(0);
   const [displayLogo, setDisplayLogo] = useState(false);
-  const [theme, setTheme] = useState();
+  const [theme, setTheme] = useState({
+    h1: {
+      backgroundColor: "green",
+      color: "yellow",
+      border: "2px dashed magenta",
+    },
+    button: {
+      backgroundColor: "grey",
+      color: "pink",
+    },
+  });
 
   const table = ["a", "b", "c"];
 
@@ -87,9 +99,20 @@ function App() {
             <li key={item}>{item}</li>
           ))}
         </ul>
+        <TaskProvider>
+          <TP1 />
+        </TaskProvider>
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
+        <TaskContext.Consumer>
+          {(value) => <p>Data in context {value.length}</p>}
+        </TaskContext.Consumer>
+        <TaskContext.Provider value={[1, 2, 3, 4]}>
+          <TaskContext.Consumer>
+            {(value) => <p>Data in context (overriden) {value.length}</p>}
+          </TaskContext.Consumer>
+        </TaskContext.Provider>
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
