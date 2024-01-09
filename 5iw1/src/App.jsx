@@ -8,6 +8,9 @@ import FormThemeReact from "./components/FormThemeReact";
 import Tasks from "./views/Tasks";
 import { TaskProvider } from "./contexts/TaskContext";
 import TaskBadge from "./components/Tasks/TaskBadge";
+import OptimizedButton from "./components/OptimizedButton";
+import { useMemo } from "react";
+import { useCallback } from "react";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -19,6 +22,9 @@ function App() {
       .then((res) => res.json())
       .then((data) => setTheme(data[0].theme));
   }, []);
+
+  //const handleConsoleLog = useMemo(() => (event) => console.log(event), []);
+  const handleConsoleLog = useCallback((event) => console.log(event), []);
 
   if (theme === undefined) {
     return <p>Loading...</p>;
@@ -107,11 +113,11 @@ function App() {
           </table>
         </Button>
         <Button theme={theme.button} title="Link" variant="text" />
-        <Button
+        <OptimizedButton
           theme={theme.button}
           title="P"
           component="p"
-          onClick={(event) => console.log(event)}
+          onClick={handleConsoleLog}
         />
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR

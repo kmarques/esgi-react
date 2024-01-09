@@ -1,10 +1,15 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import Button from "./components/Button";
 import MountUnmount from "./MountUnmount";
 import ThemeProvider, { ThemeContext } from "./contexts/ThemeContext";
+import OptimizedButton from "./components/OptimizedButton";
+
+//function useCallback(cb, deps) {
+//  return useMemo(() => cb, deps);
+//}
 
 function App() {
   const [count, setCount] = useState(0);
@@ -73,7 +78,7 @@ function App() {
           onClick={() => setDisplayLogo(!displayLogo)}
         />
         <Button variant="round" title="Button 2" style={{}} />
-        <Button
+        <OptimizedButton
           variant="circle"
           title="+"
           onClick={addElement}
