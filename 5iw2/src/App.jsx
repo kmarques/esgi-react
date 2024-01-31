@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -37,6 +37,9 @@ function App() {
     });
   }
 
+  //const handleButton1 = useMemo(() => () => console.log("coucou"), []);
+  const handleButton1 = useCallback(() => console.log("coucou"), []);
+
   return (
     <>
       {displayLogo && (
@@ -69,11 +72,7 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <Button
-          variant="squared"
-          title="Button 1"
-          onClick={() => console.log("coucou")}
-        />
+        <Button variant="squared" title="Button 1" onClick={handleButton1} />
         <Button variant="rounded" title="Toggle H1" onClick={toggleH1} />
         <Button
           variant="circle"
