@@ -1,5 +1,6 @@
 export default function Button({
   title,
+  theme = {},
   onClick,
   variant = "squared",
   children,
@@ -14,6 +15,7 @@ export default function Button({
     padding: "10px 20px",
     fontSize: 20,
     fontWeight: "bold",
+    ...theme?.[theme.mode],
     ...style,
   };
 

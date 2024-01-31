@@ -13,3 +13,25 @@ Exemple:
 <Gremlins genX={3} genProps={{ 2: { title: '2' }, 3: { onClick: () => alert('test') } }} />
 // Affiche 6 MyButton avec le 2ème qui a un title de '2' et le 3ème qui a un onClick qui alerte 'test'
 ```
+
+## TP2
+Créer un CRUD complet de liste de tâches en utilisant les states et props
+BONUS:
+ - Respecter le principe de MVVC: Avoir un composant List générique qui utilise des composants "Vue" pour afficher les tâches
+ - Utiliser localStorage pour la partie Model
+
+```jsx
+function TaskListView() {
+    const TaskManager = {
+        add: ()=> {...}
+        delete: () => {...}
+        edit: () => {...}
+    }
+
+    return (
+        <div>
+            <ListContainer model={TaskManager} container={TaskList} item={TaskItem} form={TaskForm} />
+        </div>
+    )
+}
+```
