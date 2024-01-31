@@ -5,6 +5,7 @@ import "./App.css";
 import MyButton from "./lib/components/Button";
 import Gremlins from "./components/Gremlins";
 import { faker } from "@faker-js/faker";
+import TaskListView from "./pages/TaskListPage";
 
 const defaultTheme = {
   mode: "light",
@@ -223,6 +224,7 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <TaskListView />
     </>
   );
 }
