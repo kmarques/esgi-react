@@ -1,6 +1,7 @@
+import useTheme from "../../hooks/useTheme";
+
 export default function Button({
   title,
-  theme = {},
   onClick,
   variant = "squared",
   children,
@@ -8,6 +9,8 @@ export default function Button({
   component: Component = "button",
   ...rest
 }) {
+  const theme = useTheme();
+
   const buttonStyle = {
     borderRadius: 3,
     backgroundColor: "green",

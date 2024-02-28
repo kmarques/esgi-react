@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -6,73 +6,18 @@ import MyButton from "./lib/components/Button";
 import Gremlins from "./components/Gremlins";
 import { faker } from "@faker-js/faker";
 import TaskListView from "./pages/TaskListPage";
-
-const defaultTheme = {
-  mode: "light",
-  light: {
-    h1: {
-      backgroundColor: faker.color.human(),
-      color: faker.color.human(),
-      border: "5px solid green",
-    },
-    button: {
-      backgroundColor: faker.color.human(),
-      color: faker.color.human(),
-    },
-  },
-  dark: {
-    h1: {
-      backgroundColor: faker.color.human(),
-      color: faker.color.human(),
-      border: "5px solid red",
-    },
-    button: {
-      backgroundColor: faker.color.human(),
-      color: faker.color.human(),
-    },
-  },
-};
+import ThemeProvider, { ThemeContext } from "./contexts/ThemeContext";
+import useTheme from "./hooks/useTheme";
+import useThemeActions from "./hooks/useThemeActions";
 
 function App() {
+  const theme = useTheme();
+  const { toggleTheme, toggleThemeMode } = useThemeActions();
   const [count, setCount] = useState(0);
   const [displayLogo, setDisplayLogo] = useState(true);
-  const [theme, setTheme] = useState(defaultTheme);
   const table = faker.helpers.multiple(faker.person.fullName, {
     count: 5,
   });
-
-  const toggleTheme = () => {
-    const oldH1Color = theme[theme.mode].h1.color;
-    const oldButtonColor = theme[theme.mode].button.color;
-    const oldH1BackgroundColor = theme[theme.mode].h1.backgroundColor;
-    const oldButtonBackgroundColor = theme[theme.mode].button.backgroundColor;
-
-    const newTheme = {
-      ...theme,
-      [theme.mode]: {
-        ...theme[theme.mode],
-        h1: {
-          ...theme[theme.mode].h1,
-          color: oldH1BackgroundColor,
-          backgroundColor: oldH1Color,
-        },
-        button: {
-          ...theme[theme.mode].button,
-          color: oldButtonBackgroundColor,
-          backgroundColor: oldButtonColor,
-        },
-      },
-    };
-
-    setTheme(newTheme);
-  };
-
-  const toggleThemeMode = () =>
-    console.log(theme.mode) ||
-    setTheme((currentTheme) => ({
-      ...currentTheme,
-      mode: currentTheme.mode === "light" ? "dark" : "light",
-    }));
 
   //useEffect(() => {
   //  const interval = setInterval(toggleThemeMode, 500);
@@ -179,6 +124,20 @@ function App() {
               <tbody>
                 <tr>
                   <td>Button 2</td>
+                </tr>
+              </tbody>
+            </table>
+          )}
+          onClick={() => console.log("Click Me")}
+          title="Button 2"
+          type="submit"
+        />
+        <MyButton
+          component={(props) => (
+            <table {...props}>
+              <tbody>
+                <tr>
+                  <td>Button 2 titi</td>
                 </tr>
               </tbody>
             </table>
