@@ -11,7 +11,7 @@ function ListContainer({ model, container: Container, item: Item }) {
         if (model.edit) {
           actions.onEdit = model.edit;
         }
-        return <Item item={item} {...actions} />;
+        return <Item key={item.id} item={item} {...actions} />;
       })}
     </Container>
   );

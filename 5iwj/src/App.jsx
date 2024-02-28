@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -67,6 +67,25 @@ function App() {
     setTheme(newTheme);
   };
 
+  const toggleThemeMode = () =>
+    console.log(theme.mode) ||
+    setTheme((currentTheme) => ({
+      ...currentTheme,
+      mode: currentTheme.mode === "light" ? "dark" : "light",
+    }));
+
+  //useEffect(() => {
+  //  const interval = setInterval(toggleThemeMode, 500);
+  //  return () => {
+  //    clearInterval(interval);
+  //  };
+  //}, []);
+
+  useEffect(() => {
+    const timeout = setTimeout(toggleThemeMode, 500);
+    return () => clearTimeout(timeout);
+  }, [theme.mode]);
+
   return (
     <>
       {table.length > 0 && (
@@ -133,7 +152,7 @@ function App() {
         </div>
       )}
       {!displayLogo && <p>logo hidden</p>}
-      <h1 style={theme[theme.mode].h1}>Vite + React</h1>
+      <h1 style={theme[theme.mode].h1}>Vite + React {theme.mode}</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
@@ -150,12 +169,7 @@ function App() {
         <MyButton title="Toggle Theme" onClick={toggleTheme} theme={theme} />
         <MyButton
           title={`Toggle Theme Mode (${theme.mode})`}
-          onClick={() =>
-            setTheme({
-              ...theme,
-              mode: theme.mode === "light" ? "dark" : "light",
-            })
-          }
+          onClick={toggleThemeMode}
           theme={theme}
         />
         <MyButton

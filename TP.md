@@ -35,3 +35,5 @@ function TaskListView() {
     )
 }
 ```
+## TP3
+Reprendre le TP2 et ajouter le chargement automatique des tâches depuis un serveur (utiliser json-server pour simuler un serveur) et mettre en place un système générique de filtres et paginations.
