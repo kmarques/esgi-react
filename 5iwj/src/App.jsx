@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -6,9 +6,16 @@ import MyButton from "./lib/components/Button";
 import Gremlins from "./components/Gremlins";
 import { faker } from "@faker-js/faker";
 import TaskListView from "./pages/TaskListPage";
-import ThemeProvider, { ThemeContext } from "./contexts/ThemeContext";
 import useTheme from "./hooks/useTheme";
 import useThemeActions from "./hooks/useThemeActions";
+import TaskListProvider from "./contexts/TaskListContext";
+
+const styleToggleButton = {
+  backgroundColor: "pink",
+  color: "yellow",
+  marginRight: 10,
+};
+const button2OnClick = () => console.log("Click Me");
 
 function App() {
   const theme = useTheme();
@@ -27,9 +34,36 @@ function App() {
   //}, []);
 
   useEffect(() => {
-    const timeout = setTimeout(toggleThemeMode, 500);
-    return () => clearTimeout(timeout);
+    //const timeout = setTimeout(toggleThemeMode, 500);
+    //return () => clearTimeout(timeout);
   }, [theme.mode]);
+
+  const Button2Component = useCallback(
+    (props) => (
+      <table {...props}>
+        <tbody>
+          <tr>
+            <td>Button 2</td>
+          </tr>
+        </tbody>
+      </table>
+    ),
+    []
+  );
+  //const button2OnClick = useCallback(() => console.log("Click Me"), []);
+  // <=> const button2OnClick = useMemo(() => () => console.log("Click Me"), []);
+
+  const toggleDisplayLogo = useCallback(
+    () => setDisplayLogo((displayLogo) => !displayLogo),
+    [setDisplayLogo]
+  );
+
+  const styleToggleLogo2 = useMemo(
+    () => ({
+      backgroundColor: theme.mode === "light" ? "pink" : "yellow",
+    }),
+    [theme]
+  );
 
   return (
     <>
@@ -104,12 +138,13 @@ function App() {
         </button>
         <MyButton
           title="Toggle logo"
-          onClick={() => setDisplayLogo(!displayLogo)}
-          style={{
-            backgroundColor: "pink",
-            color: "yellow",
-            marginRight: 10,
-          }}
+          onClick={toggleDisplayLogo}
+          style={styleToggleButton}
+        />
+        <MyButton
+          title="Toggle logo 2"
+          onClick={toggleDisplayLogo}
+          style={styleToggleLogo2}
         />
         <MyButton title="Toggle Theme" onClick={toggleTheme} theme={theme} />
         <MyButton
@@ -118,31 +153,8 @@ function App() {
           theme={theme}
         />
         <MyButton
-          theme={theme.button}
-          component={(props) => (
-            <table {...props}>
-              <tbody>
-                <tr>
-                  <td>Button 2</td>
-                </tr>
-              </tbody>
-            </table>
-          )}
-          onClick={() => console.log("Click Me")}
-          title="Button 2"
-          type="submit"
-        />
-        <MyButton
-          component={(props) => (
-            <table {...props}>
-              <tbody>
-                <tr>
-                  <td>Button 2 titi</td>
-                </tr>
-              </tbody>
-            </table>
-          )}
-          onClick={() => console.log("Click Me")}
+          component={Button2Component}
+          onClick={button2OnClick}
           title="Button 2"
           type="submit"
         />
@@ -197,7 +209,9 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-      <TaskListView />
+      <TaskListProvider>
+        <TaskListView />
+      </TaskListProvider>
     </>
   );
 }

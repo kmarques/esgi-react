@@ -1,11 +1,6 @@
 {
   "tasks": [
     {
-      "id": 1,
-      "title": "json-server",
-      "status": "completed"
-    },
-    {
       "id": 2,
       "title": "json-server 2",
       "status": "not completed"

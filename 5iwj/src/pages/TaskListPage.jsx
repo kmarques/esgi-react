@@ -1,39 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TaskForm from "../components/Tasks/TaskForm";
 import TaskItem from "../components/Tasks/TaskItem";
 import TaskList from "../components/Tasks/TaskList";
 import ListContainer from "../lib/components/ListContainer";
 import Button from "../lib/components/Button";
+import useTaskListActions from "../hooks/tasklist/useTaskListActions";
+import useTaskListSelectors from "../hooks/tasklist/useTaskListSelectors";
 
 export default function TaskListView() {
-  const [tasks, setTasks] = useState([
-    { id: Date.now(), title: "Test", status: "completed" },
-    { id: Date.now() + 745352, title: "Test 2", status: "not completed" },
-  ]);
+  const actions = useTaskListActions();
+  const selectors = useTaskListSelectors();
 
-  const TaskManager = {
-    add: (task) => {
-      setTasks([...tasks, task]);
-    },
-    delete: (id) => {
-      setTasks(tasks.filter((item) => item.id !== id));
-    },
-    edit: (id, newTask) => {
-      setTasks(tasks.map((item) => (item.id === id ? newTask : item)));
-    },
-    get: () => tasks,
-  };
+  useEffect(() => {
+    actions.fetch();
+  }, []);
 
   return (
     <div>
       <ListContainer
-        model={TaskManager}
+        model={{ ...actions, ...selectors }}
         container={TaskList}
         item={TaskItem}
         form={TaskForm}
       />
       <ListContainer
-        model={TaskManager}
+        model={{ ...actions, ...selectors }}
         container={({ children }) => <ul>{children}</ul>}
         item={({ item, onDelete }) => (
           <li>

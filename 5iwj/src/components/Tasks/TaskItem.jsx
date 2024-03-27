@@ -14,7 +14,7 @@ function TaskItem({ item, onDelete }) {
           <Button
             onClick={() =>
               confirm(`Are you sure to delete '${item.title}' ?`) &&
-              onDelete(item.id)
+              onDelete({ id: item.id })
             }
           >
             Delete
@@ -26,7 +26,7 @@ function TaskItem({ item, onDelete }) {
         <tr>
           <td colSpan={4}>
             <TaskForm
-              onSubmit={(newValues) => onEdit(item.id, newValues)}
+              onSubmit={(newValues) => onEdit({ id: item.id, ...newValues })}
               defaultValues={item}
             />
           </td>

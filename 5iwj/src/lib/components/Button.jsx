@@ -1,6 +1,7 @@
+import { memo, useMemo } from "react";
 import useTheme from "../../hooks/useTheme";
 
-export default function Button({
+function Button({
   title,
   onClick,
   variant = "squared",
@@ -11,6 +12,7 @@ export default function Button({
 }) {
   const theme = useTheme();
 
+  console.log("Button refreshed", title);
   const buttonStyle = {
     borderRadius: 3,
     backgroundColor: "green",
@@ -45,3 +47,11 @@ export default function Button({
     </Component>
   );
 }
+
+export default memo(Button);
+
+//function memo(Component) {
+//  return function (props) {
+//    return useMemo(() => <Component {...props} />, [props]);
+//  };
+//}
