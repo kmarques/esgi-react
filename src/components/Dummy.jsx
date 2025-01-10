@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import Button from "./Button";
+import useNotify from "../hooks/useNotify";
 
 export default function Dummy() {
   const [count, setCount] = useState(0);
+  const notify = useNotify();
 
   useEffect(() => {
     console.log("After Update - count: %d", count);
@@ -19,9 +22,14 @@ export default function Dummy() {
   }, []);
 
   return (
-    <button onClick={() => setCount((count) => count + 1)}>
-      count is {count}
-    </button>
+    <>
+      <Button onClick={() => setCount((count) => count + 1)}>
+        count is {count}
+      </Button>
+      <Button onClick={() => notify("success", "Coucou")}>
+        Test Toast success
+      </Button>
+    </>
   );
 }
 

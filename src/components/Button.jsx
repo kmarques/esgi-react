@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { ThemeContext } from "../contexts/ThemeContext";
+
 function Button({
   title = "Click Me",
   component: Component = "button",
@@ -8,18 +11,13 @@ function Button({
   customStyle = {},
   ...others
 }) {
+  const {
+    selectors: { getTheme },
+  } = useContext(ThemeContext);
+  const theme = getTheme();
+
   const style = {
-    padding: "0.6em 1.2em",
-    borderRadius: 8,
-    border: "1px solid transparent",
-    fontSize: "1em",
-    fontWeight: 500,
-    fontFamily: "inherit",
-    cursor: "pointer",
-    transition: "border-color 0.25s",
-    paddingRight: 10,
-    paddingLeft: 10,
-    marginRight: 5,
+    ...theme.button,
     color,
     backgroundColor,
     ...customStyle,

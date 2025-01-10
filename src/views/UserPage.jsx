@@ -50,10 +50,25 @@ export default function UserPage() {
 
   return users ? (
     <Table
+      columnDefinitions={[
+        {
+          key: "id",
+          title: "ID",
+          editable: false,
+        },
+        {
+          key: "fullname",
+          title: "Nom complet",
+          getValue: (item) => `${item.lastname} ${item.firstname}`,
+          style: {},
+        },
+      ]}
       getItems={getUsers}
       onAdd={addUser}
       onDelete={deleteUser}
       onEdit={editUser}
+      rowComponent=""
+      formComponent=""
     />
   ) : (
     <progress />

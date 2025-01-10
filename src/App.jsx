@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -6,6 +6,7 @@ import Button from "./components/Button";
 import Table from "./components/Table";
 import Dummy from "./components/Dummy";
 import UserPage from "./views/UserPage";
+import { ThemeContext } from "./contexts/ThemeContext";
 
 const items = [
   { id: 1, name: "item 1" },
@@ -48,36 +49,22 @@ const items2 = [];
 
 function App() {
   const [count, setCount] = useState(0);
+  const {
+    selectors: { getTheme },
+    actions: { toggleTheme },
+  } = useContext(ThemeContext);
   //const [currentState, dispatch] = useReducer(reducer, initialState);
-  const [theme, setTheme] = useState({
-    h1: {
-      backgroundColor: "red",
-      color: "green",
-      borderWidth: 5,
-      borderStyle: "dotted",
-      borderColor: "green",
-    },
-  });
+
+  const theme = getTheme();
   const result = [];
   for (let i = 0; i < items.length; i++) {
     if (i % 2 === 0) continue;
     result.push(<li key={i}>{items[i].name}</li>);
   }
 
-  function toggleTheme() {
-    const currentColor = theme.h1.color;
-    const currentBackgroundColor = theme.h1.backgroundColor;
-
-    setTheme({
-      ...theme,
-      h1: {
-        ...theme.h1,
-        backgroundColor: currentColor,
-        color: currentBackgroundColor,
-        borderColor: currentBackgroundColor,
-      },
-    });
-  }
+  useEffect(() => {
+    setInterval(toggleTheme, 1000);
+  }, []);
 
   const [data, setData] = useState(items);
 
