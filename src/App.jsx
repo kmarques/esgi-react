@@ -3,6 +3,9 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import Button from "./components/Button";
+import Table from "./components/Table";
+import Dummy from "./components/Dummy";
+import UserPage from "./views/UserPage";
 
 const items = [
   { id: 1, name: "item 1" },
@@ -58,7 +61,7 @@ function App() {
   const result = [];
   for (let i = 0; i < items.length; i++) {
     if (i % 2 === 0) continue;
-    result.push(<li>{items[i].name}</li>);
+    result.push(<li key={i}>{items[i].name}</li>);
   }
 
   function toggleTheme() {
@@ -76,8 +79,27 @@ function App() {
     });
   }
 
+  const [data, setData] = useState(items);
+
+  function handleAdd(item) {
+    setData([...data, item]);
+  }
+
+  function handleEdit(id, newValues) {
+    setData(data.map((item) => (item.id === id ? newValues : item)));
+  }
+
+  function handleDelete(id) {
+    setData(data.filter((item) => item.id !== id));
+  }
+
+  function getData() {
+    return data;
+  }
+
   return (
     <>
+      <h1>Structure conditionnelle</h1>
       {count % 2 === 0 && (
         <div>
           <a href="https://vite.dev" target="_blank">
@@ -97,6 +119,7 @@ function App() {
       {count % 2 !== 0 && count % 3 !== 0 && <p>Logo hidden</p>}
       {items2.length !== 0 && items2.map((item) => <li key={item}>{item}</li>)}
       <h1 style={theme.h1}>Vite + React</h1>
+      <h1>Props + Component</h1>
       <div className="card">
         <Button onClick={toggleTheme}>Toggle theme</Button>
         <Button title="Btn 1" onClick={() => alert("test")} />
@@ -143,6 +166,7 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
+        <h1>Structure itérative</h1>
         <ul>
           {items
             .filter((item, index) => index % 2 === 0)
@@ -156,6 +180,18 @@ function App() {
           }, [])}
         </ul>
         <ul>{result}</ul>
+        <h1>TP Table</h1>
+        <Table
+          getItems={getData}
+          onAdd={handleAdd}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+        <Table getItems={getData} onAdd={handleAdd} onEdit={handleEdit} />
+        <h1>Dummy component (Lifecycle)</h1>
+        {count % 2 === 0 && <Dummy />}
+        <h1>User page (useEffect + Fetch + State)</h1>
+        <UserPage />
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
